@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html>
+    <head lang="ru">
+        <meta charset="UTF-8">
+        <!-- просит использовать самую свежую версию иксплорера и эджа -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <!-- заставляет выставлять 100% на мобильниках -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- фавиконка, если у нас вдруг будет -->
+        <link rel="shortcut icon" href="/wsgi3/minorlangs/static/favicon.ico">
+        <link rel="stylesheet"
+              href="/wsgi3/minorlangs/static/bootstrap/css/bootstrap.min.css"/>
+        <link rel="stylesheet"
+                href="/wsgi3/minorlangs/static/main.css"/>
+        <script src="/wsgi3/minorlangs/static/jquery-2.1.4.min.js">
+        </script>
+        <script src="/wsgi3/minorlangs/static/bootstrap/js/bootstrap.min.js">
+        </script>
+        <script src="/wsgi3/minorlangs/static/bootstrap/js/transition.js">
+        </script>
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        
+        
+        <script src="/wsgi3/minorlangs/static/main.js"></script>
+        <title>Годоберинский</title>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-default">
+            <!-- Класс container центрирует содержимое: делает спец. отступы, чтоб было красивенько -->
+                <div class="container">
+                    <!-- Brand and toggle get grouped for better mobile display
+                        taken from http://getbootstrap.com/components/#navbar-default
+                    -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed"
+                                data-toggle="collapse"
+                                data-target=".nav-collapse"
+                                aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href='/wsgi3/minorlangs/'>Языки&nbsp;России</a>
+                    </div>
+                    <div class="collapse navbar-collapse nav-collapse">
+                        <ul class="nav navbar-nav">
+                            <!-- это кусок особой уличной магии, которая позволяет
+                                 не делать ссылкой раздел, ведущий на текущую страницу:
+                                 request.endpoint сообщает функцию, обрабатывающую
+                                  показ шаблона
+                                 link - тоже работает c именем фукнции, рендерящей конкретный шаблон
+                                -->
+                            
+                                
+                                    <!-- active - это про текущую вкладку -->
+                                    <li class="active">
+                                    <!-- это чтобы nbsp; отображался -->
+                                        <a href="#">Про&nbsp;языки</a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href='/wsgi3/minorlangs/download'>Скачать&nbsp;коллекцию</a>
+                                    </li>
+                                
+                            
+                                
+                                    <li>
+                                        <a href='/wsgi3/minorlangs/about'>О&nbsp;проекте</a>
+                                    </li>
+                                
+                            
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <main class="container">
+            <div>
+                <h2>Годоберинский</h2>
+                <p class="note"></p>
+            </div>
+            
+    <article>
+        <script type="text/javascript">
+            var graphs_data = "/wsgi3/minorlangs/json/graphs_data/gdo";
+            var overall_data = "/wsgi3/minorlangs/json/overall_data";
+        </script>
+        <!-- Можно попытаться сделать так, чтоб по списку можно было искать: http://jsearchdropdown.sourceforge.net/ -->
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="true">
+                Выбрать язык
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu scrollable-menu" role="menu" aria-labelledby="dropdownMenu1">
+                
+                    <li><a href="/wsgi3/minorlangs/view/overall">Сводная информация</a></li>
+                
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/abq">Абазинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/av">Аварский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/agx">Агульский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ady">Адыгейский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/al">Алеутский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/alr">Алюторский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ams">Амузги-ширинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ani">Андийский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ar">Арчинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/akv">Ахвахский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kva">Багвалинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ba">Башкирский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kap">Бежтинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/bph">Ботлихский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/bxr">Бурятский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/vep">Вепсский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/vvk">Верхневуркунский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/vot">Водский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/gap">Гапшиминский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/gin">Гинухский</a></li>
+                    
+                
+                    
+                        <li class="disabled alert-info"><a href="/wsgi3/minorlangs/view/gdo">Годоберинский</a>
+                        </li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/mrj">Горномарийский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/huz">Гунзибский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/izh">Ижорский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/inh">Ингушский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/itl">Ительменский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kbd">Кабардино-черкесский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kad">Кадарский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kaj">Кайтагский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/xal">Калмыцкий</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kpt">Каратинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/krc">Карачаево-балкарский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/krl">Карельский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ket">Кетский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/sjd">Кольско-саамский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kv">Коми-зырянский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/koi">Коми-пермяцкий</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kpy">Корякский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kas">Кубачи-аштинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kum">Кумыкский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/lbe">Лакский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/lez">Лезгинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/for">Лесной ненецкий</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/dar">Литературный даргинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/mhr">Лугово-восточный марийский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/mns">Мансийский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/meg">Мегебский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/mdf">Мокша-мордовский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/mui">Муиринский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/gld">Нанайский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/nio">Нганасанский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/neg">Негидальский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/niv">Нивхский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/nog">Ногайский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/oaa">Орокский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/rut">Рутульский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/its">Санжи-ицаринский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/overall">Сводная информация</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/atv">Северноалтайский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/nuk">Северноюкагирский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/sel">Селькупский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/stc">Сойотско-цаатанский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/tab">Табасаранский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/tsr">Танты-сирхинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/tt">Татарский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ttt">Татский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/tin">Тиндинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kim">Тофаларский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/tub">Тубаларский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/tyv">Тувинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/yrk">Тундровый ненецкий</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/udi">Удинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/udm">Удмуртский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ude">Удэгейский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ulc">Ульчский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/utc">Усиша-цудахарский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kjh">Хакасский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/kca">Хантыйский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/khv">Хваршинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/tkr">Цахурский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ddo">Цезский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/rmy">Цыганский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/cji">Чамалинский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ce">Чеченский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/chi">Чирагский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/cv">Чувашский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ckt">Чукотский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/clw">Чулымский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/cjs">Шорский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/evn">Эвенкийский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/eve">Эвенский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/enf">Энецкий</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/myv">Эрзя-мордовский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/ess">Эскимосский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/alt">Южноалтайский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/suk">Южноюкагирский</a></li>
+                    
+                
+                    
+                        <li><a href="/wsgi3/minorlangs/view/sah">Якутский</a></li>
+                    
+                
+            </ul>
+        </div>
+        
+            
+                <h2>Информация о языке</h2>
+                <table class="table table-condensed table-hover lang-info">
+                    <tbody>
+                    <tr>
+                        <td>Язык:</td>
+                        <td class="text-left">Годоберинский</td>
+                    </tr>
+                    <tr>
+                        <td>Самоназвание:</td>
+                        <td class="text-left">гъибдилълъи мицци</td>
+                    </tr>
+                    <tr>
+                        <td>ISO-369-3:</td>
+                        <td class="text-left">gdo</td>
+                    </tr>
+                    <tr>
+                        <td>Языковая семья:</td>
+                        <td class="text-left">нахско-дагестанская</td>
+                    </tr>
+                    <tr>
+                        <td>Число носителей (2010 год):</td>
+                        <td class="text-left">128</td>
+                    </tr>
+                    <tr>
+                        <td>Титульный регион распространения:</td>
+                        <td class="text-left">Дагестан</td>
+                    </tr>
+                    <tr>
+                        <td>Статус:</td>
+                        <td class="text-left"></td>
+                    </tr>
+                    <tr>
+                        <td>Письменность:</td>
+                        <td class="text-left">нет (возможно аварская письменность)</td>
+                    </tr>
+                    <tr class="active">
+                        
+                            <td class="wiki">Википедия:</td>
+                            <td class="wiki">нет</td>
+                        
+                    </tr>
+                    </tbody>
+                </table>
+
+                <h2>Представленность в интернете и соц.сетях</h2>
+                
+                
+                <h4>Домены</h4>
+
+                
+                    <p class="note"> Для этого языка нет данных</p>
+                
+                <h4>Сообщества</h4>
+                
+                    <p class="note"> Для этого языка нет данных</p>
+                
+                <h4>Тексты</h4>
+                
+                    <p class="note"> Для этого языка нет данных</p>
+                
+                <h4>Токены</h4>
+                
+                    <p class="note"> Для этого языка нет данных</p>
+                
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+        
+    </article>
+
+        </main>
+        <div class="map">
+            
+            
+        </div>
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 col-md-4">
+                        Связаться с нами:
+                        <a href="mailto:ru-lang@yandex.ru">ru-lang@yandex.ru</a>
+                    </div>
+                    <div class="col-xs-6 col-xs-offest-6 col-md-4 col-md-offset-4 text-center">
+                        Copyright &copy; 2016
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
