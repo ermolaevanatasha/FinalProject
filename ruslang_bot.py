@@ -8,7 +8,7 @@ import urllib.request
 from urllib.error import HTTPError
 import xml.etree.ElementTree as ET
 from lxml import html
-# import re
+import re
 import os
 import time
 import flask
