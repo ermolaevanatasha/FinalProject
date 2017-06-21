@@ -3,14 +3,10 @@
 # регион, статус, письменность, ссылку на википедию на этом языке, если есть. 
 
 import telebot
-# import conf
 import urllib.request
 from urllib.error import HTTPError
-import xml.etree.ElementTree as ET
 from lxml import html
-import re
 import os
-import time
 import flask
 
 TOKEN = os.environ["TOKEN"]
@@ -62,6 +58,12 @@ def lang_page():
             value = td_nodes[1].text or ""
 
             values[iso][key] = value
+
+        wiki_link = root.xpath(".//table[contains(@class, 'lang-info')]//td[@class='wiki']/a")
+        try:
+            values[iso]['Википедия:'] = wiki_link[0].text
+        except:
+            pass
 
     # print(values)
     return values
