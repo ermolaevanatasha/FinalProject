@@ -113,7 +113,7 @@ def langs_list(message):
     chat_id = message.chat.id
     v = lang_page()
     r = make_dict(v)
-    langs_set = set(lang for lang in sorted(r.values()))
+    langs_set = set(lang for lang in r.values())
 
     bot.send_message(chat_id, 'Доступные языки: ' + ', '.join(sorted(langs_set)) + '.')
 
