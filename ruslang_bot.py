@@ -6,7 +6,7 @@ import telebot
 import urllib.request
 from urllib.error import HTTPError
 from lxml import html
-import os
+import os, os.path
 import flask
 
 TOKEN = os.environ["TOKEN"]
@@ -20,7 +20,7 @@ app = flask.Flask(__name__)
 
 lang_iso = ['abq', 'agx', 'ady', 'ava','ale', 'alr', 'ams', 'ani', 'aqc', 'akv', 'kva', 'bak', 'kap', 'bph', 'bxr', 'vep', 'vvk', 'vot', 'gap', 'gin', 'gdo', 'mrj', 'huz', 'izh', 'inh', 'itl', 'kbd', 'kad', 'kaj', 'xal', 'kpt', 'krc', 'krl', 'ket', 'sjd', 'kpv', 'koi', 'kpy', 'kas', 'kum', 'lbe', 'lez', 'for', 'dar', 'mhr', 'mns', 'meg', 'mdf', 'mui', 'gld', 'nio', 'neg', 'niv', 'nog', 'oaa', 'rut', 'its', 'atv', 'ykg', 'sel', 'stc', 'tab', 'tsr', 'tat', 'ttt', 'tin', 'kim', 'tub', 'tyv', 'yrk', 'udi', 'udm', 'ude', 'ulc', 'utc', 'kjh', 'kca', 'khv', 'tkr', 'ddo', 'rmy', 'cji', 'che', 'chi', 'chv', 'ckt', 'clw', 'cjs', 'evn', 'eve', 'enf', 'myv', 'ess', 'alt', 'yux', 'sah']
 
-def lang_page():
+def lang_page(): # в этой функции происходит выкачивание страниц языков с web-corpora.net, затем для каждой страницы создается локальная копия; 
     values = {}
 
     # создаем локальные копии всех доступных страниц с языками (чтобы не нагружать сайт при каждом сообщении пользователя боту)
@@ -44,11 +44,10 @@ def lang_page():
         except:
             print('no lang file ' + iso)
 
-        # таким способом информация достается быстрее, нежели регулярными выражениями
         root = html.fromstring(lang_resp)
         nodes = root.xpath(".//table[contains(@class, 'lang-info')]//tr")
         values[iso] = {}
-        for node in nodes: # узлы в дереве HTML
+        for node in nodes:
             td_nodes = node.xpath("td")
 
             if len(td_nodes) != 2:
@@ -56,6 +55,7 @@ def lang_page():
 
             key = td_nodes[0].text
             value = td_nodes[1].text or ""
+            value = value.lower()
 
             values[iso][key] = value
 
@@ -65,15 +65,13 @@ def lang_page():
         except:
             pass
 
-    # print(values)
     return values
 
-def make_dict(values, lang_iso):
+def make_dict(values): # это функция, в которой создается словарь "result": {'абазинский': 'абазинский', 'абаза бызшва': 'абазинский'} (и другие подобные пары "ключ-значение" для всех имеющихся языков)
     result = {}
-    iso_name = {}
     for __, value in values.items():
         name = value["Язык:"]
-        name1 = name.lower()
+        name_low = name.lower()
         selfname = value["Самоназвание:"]
 
         if ', ' in selfname:
@@ -85,61 +83,79 @@ def make_dict(values, lang_iso):
         if ';' in selfname:
             selfname = selfname.replace('; ', '\n')
 
-        result[name1] = name
+        result[name_low] = name_low
 
         selfname = selfname.split('\n')
         for s in selfname:
-            result[s] = name
-    
-    # print(result)
-    return result
+            result[s] = name_low
 
+    return result
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
+    path = './langs'
+    file_count = len([name for name in os.listdir(path) if os.path.isfile(os.path.join(path, name))])
+
     bot.send_message(message.chat.id, 'Здравствуйте! Это бот, который может рассказать некоторую информацию о любом из языков России.\n\n\
-Пожалуйста, введите название или самоназвание (или какую-либо их часть; главное, чтобы все было напечатано в нижнем регистре) \
-интересующего вас языка (без слова "язык"). \n\nВ случае затруднения воспользуйтесь командой /help.')
+Пожалуйста, введите название или самоназвание (или какую-либо их часть) \
+интересующего вас языка. \n\nСейчас в моей базе данных содержится информация о ' + str(file_count) + ' языках. Для просмотра их списка введите /langs.\n\nВ случае затруднения воспользуйтесь командой /help.')
 
 @bot.message_handler(commands=['help'])
-def send_welcome(message):
+def send_help(message):
     bot.send_message(message.chat.id, 'Чтобы начать использование бота, вам нужно лишь отправить ему команду /start, \
 а затем \u2013 название/самоназвание (или их часть, например, для южноалтайского языка можно написать лишь "алт") интересующего вас языка, \
 а бот, в свою очередь, расскажет все, что знает об этом языке, \
-а также распечатает список языков, названия или самоназвания которых хотя бы частично совпадают с вашим запросом.')
+а также распечатает список языков, названия или самоназвания которых хотя бы частично совпадают с вашим запросом.\n\n\
+Для просмотра полного списка языков воспользуйтесь командой /langs.')
+
+@bot.message_handler(commands=['langs'])
+def langs_list(message):
+    chat_id = message.chat.id
+    v = lang_page()
+    r = make_dict(v)
+    langs_set = set(lang for lang in sorted(r.values()))
+
+    bot.send_message(chat_id, 'Доступные языки: ' + ', '.join(sorted(langs_set)) + '.')
 
 @bot.message_handler(func=lambda m: True)
-def send_info(message):
+def send_info(message): # эта функция получает на вход сообщение пользователя, преобразует его (переводит в нижний регистр и удаляет лишние слова)
     chat_id = message.chat.id
     bot.send_chat_action(chat_id, 'typing')
     bot.send_sticker(chat_id, 'CAADAgADiQADhC64BjZ1mCglHfVbAg')
     v = lang_page()
-    r = make_dict(v, lang_iso)
+    r = make_dict(v)
+    message_text = message.text.lower()
+    message_text = "".join(message_text.split()) # удаление пробелов
 
-    a = [value for key, value in r.items() if key.find(message.text) != -1]
+    if 'язык' in message_text:
+        clean_message = message_text.replace('язык', '')
+    else:
+        clean_message = message_text
+
+    a = [value for key, value in r.items() if key.find(clean_message) != -1]
     try:
         lang = a[0]
     except:
         try:
-            lang = r[message.text]
+            lang = r[clean_message]
         except:
             lang = ""
 
     if lang is not "":
-        result = ''
+        result = ""
         for k in v:
-            if lang in v[k]['Язык:']:
-                if v[k]['Самоназвание:'] is not "":
-                    selfn = ' (' + v[k]['Самоназвание:'] + ')'
+            if lang in v[k]["Язык:"]:
+                if v[k]["Самоназвание:"] is not "":
+                    selfn = ' (' + v[k]["Самоназвание:"] + ')'
                 else:
                     selfn = ''
 
                 result += 'Вот, что мне удалось найти про ' + lang + selfn + ':\n\n'
 
-                c = dict(v[k])
-                del c['Язык:']
-                del c['Самоназвание:']
-                for x, y in c.items():
+                values_copy = dict(v[k])
+                del values_copy["Язык:"]
+                del values_copy["Самоназвание:"]
+                for x, y in values_copy.items():
                     if y is not "":
                         result += x + ' ' + y + '\n'
                 break
@@ -151,8 +167,7 @@ def send_info(message):
             others.remove(lang)
             bot.send_message(chat_id, 'Другие языки по вашему запросу: ' + ", ".join(others))
     else:
-        bot.send_message(chat_id, 'К сожалению, в моей базе данных отсутствует информация об этом языке :(\nМожет быть, вы попробуете ввести другой запрос или проверите свой на наличие заглавных букв и опечаток?')
-
+        bot.send_message(chat_id, 'К сожалению, в моей базе данных отсутствует информация об этом языке :(\nМожет быть, вы попробуете ввести другой запрос?')
 
 @app.route("/bot", methods=['POST'])
 def webhook():
